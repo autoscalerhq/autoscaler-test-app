@@ -5,14 +5,15 @@ import (
 	"fmt"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/riverqueue/river"
-	"time"
-
 	"github.com/riverqueue/river/riverdriver/riverpgxv5"
 	"github.com/riverqueue/river/rivershared/util/slogutil"
 	"log/slog"
+	"os"
+	"time"
 )
 
 // river needs a couple of tables to work
@@ -20,7 +21,16 @@ import (
 func main() {
 	e := echo.New()
 	ctx := context.Background()
-	dbPool, err := pgxpool.New(ctx, "postgresql://postgres:admin@localhost:5432/postgres")
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("Error loading .env file")
+	}
+
+	dbUrl := os.Getenv("DATABASE_URL")
+	if dbUrl == "" {
+		dbUrl = "postgresql://postgres:admin@localhost:5432/postgres"
+	}
+	dbPool, err := pgxpool.New(ctx, dbUrl)
 	if err != nil {
 		e.Logger.Fatal(err)
 	}
