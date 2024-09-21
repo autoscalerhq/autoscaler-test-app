@@ -35,7 +35,7 @@ const AutoscaleSampleApp = () => {
 
                 {activeTab === 'Request'
                     ? (<RequestTab/>)
-                    : (<QueueTab activeTab={activeTab}/>)
+                    : (<QueueTab/>)
                 }
             </div>
         </div>
