@@ -49,13 +49,15 @@ export function QueueTab() {
             e.preventDefault();
             setPending((prev) => prev + 1);
             setLastStartTime(Date.now());
-            await fetch('/api/queue',
-                {
-                    method: "POST",
-                    body: JSON.stringify({
-                        "latency": latency
-                    }),
-                });
+            await fetch("http://localhost:8080/insertToQueue", {
+                method: "POST",
+                body: JSON.stringify({
+                    "latency": latency
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
         };
 
         return (

@@ -13,7 +13,12 @@ export function RequestTab() {
 
         setPending((prev) => prev + 1);
         const startTime = Date.now();
-        await fetch('/api/request');
+        await fetch("http://localhost:8080/request", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
         setTimeout(() => {
             const responseTime = Date.now() - startTime;
             setPending((prev) => prev - 1);
